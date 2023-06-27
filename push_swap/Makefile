@@ -1,81 +1,32 @@
-CC		= gcc
-CFLAGS	= -Wall -Werror -Wextra
-NAME	= push_swap
+NAME = push_swap
 
-SRC_PATH = src/
-OBJ_PATH = obj/
+FILES = push.c\
+		pushswap.c\
+		get.c\
+		radixSort.c\
+		revRotate.c\
+		rotate.c\
+		sort.c\
+		swap.c\
+		utils.c\
+		util2.c
 
-SRC		= calculationCheck.c \
-		  check.c \
-		  fill.c \
-		  main.c \
-		  moves.c \
-		  position.c \
-		  push.c \
-		  revRotate.c \
-		  sort.c \
-		  swap.c \
-		  utils.c \
-		  stack.c 
-		  
-SRCS	= $(addprefix $(SRC_PATH), $(SRC))
-OBJ		= $(SRC:.c=.o)
-OBJS	= $(addprefix $(OBJ_PATH), $(OBJ))
+OBJS = $(FILES:.c=.o)
+CC = gcc
+CFLAGS = -Wall -Wextra -Werror
+RM = rm -rf
 
-all: $(OBJ_PATH) $(NAME) 
+.c.o = ${CC} ${CFLAGS} -c $< -o ${<:.c=.o}
 
-$(OBJ_PATH)%.o: $(SRC_PATH)%.c
-	$(CC) $(CFLAGS) -c $< -o $@ 
+$(NAME): ${OBJS}
+	$(CC) $(NAME) $(OBJS)
 
-$(OBJ_PATH):
-	mkdir $(OBJ_PATH)
-
-$(NAME): $(OBJS)
-	$(CC) $(CFLAGS) $(OBJS) -o $(NAME)
+all: $(NAME)
 
 clean:
-	rm -rf $(OBJ_PATH)
+	${RM} $(OBJS)
 
 fclean: clean
-	rm -f $(NAME)
+	${RM} $(NAME)
 
 re: fclean all
-
-test2:				$(NAME)	
-					$(eval ARG = $(shell shuf -i 0-100 -n 2))
-					./push_swap $(ARG) | ./checker_linux $(ARG)
-					@echo -n "Instructions: "
-					@./push_swap $(ARG) | wc -l
-
-test3:				$(NAME)	
-					$(eval ARG = $(shell shuf -i 0-100 -n 3))
-					./push_swap $(ARG) | ./checker_linux $(ARG)
-					@echo -n "Instructions: "
-					@./push_swap $(ARG) | wc -l
-
-test5:				$(NAME)	
-					$(eval ARG = $(shell shuf -i 0-5000 -n 5))
-					./push_swap $(ARG) | ./checker_linux $(ARG)
-					@echo -n "Instructions: "
-					@./push_swap $(ARG) | wc -l
-
-test100:			$(NAME)	
-					$(eval ARG = $(shell shuf -i 0-5000 -n 100))
-					./push_swap $(ARG) | ./checker_linux $(ARG)
-					@echo -n "Instructions: "
-					@./push_swap $(ARG) | wc -l
-
-test500:			$(NAME)	
-					$(eval ARG = $(shell shuf -i 0-5000 -n 500))
-					./push_swap $(ARG) | ./checker_linux $(ARG)
-					@echo -n "Instructions: "
-					@./push_swap $(ARG) | wc -l
-
-test1000:			$(NAME)	
-					$(eval ARG = $(shell shuf -i 0-5000 -n 1000))
-					./push_swap $(ARG) | ./checker_linux $(ARG)
-					@echo -n "Instructions: "
-					@./push_swap $(ARG) | wc -l
-
-
-.PHONY: all clean fclean re test2 test3 test5 test100 test500 test1000
